@@ -1,0 +1,24 @@
+{
+  "name": "lab_node_express",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scadavidg/lab_node_express.git"
+  },
+  "author": "Santiago Cadavid Gutierrez",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/scadavidg/lab_node_express/issues"
+  },
+  "homepage": "https://github.com/scadavidg/lab_node_express#readme",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "5.0.15",
+    "morgan": "^1.10.0"
+  }
+}
