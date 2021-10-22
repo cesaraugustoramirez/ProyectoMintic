@@ -4,7 +4,7 @@ const routes = require('./routes');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const dbConfig = require('./config/db');
-
+const cors = require('cors');
 
 app.use(express.json())
 
@@ -15,6 +15,7 @@ mongoose.connect(dbConfig.dbStringConnect)
 
 const port = 3001;
 
+app.use(cors());
 
 app.use(morgan("dev"));
 
