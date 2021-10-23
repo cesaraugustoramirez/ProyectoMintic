@@ -1,8 +1,8 @@
 import react, { useState, useEffect } from 'react';
 import { FormGroup, FormControl, InputLabel, Input, Button, makeStyles, Typography, RadioGroup, FormLabel, FormControlLabel, Radio } from '@material-ui/core';
-import { editProduct, getProduct } from '../services/ProductService';
+import { editProduct, getProduct } from '../../services/ProductService';
 import { useHistory, useParams } from 'react-router-dom';
-import { verifyToken } from '../services/AuthService'
+import { verifyToken } from '../../services/AuthService'
 
 const initialValue = {
     valorunitario: 0,
