@@ -67,7 +67,7 @@ export function EditSale() {
         loadProductsData();
     }, [])
 
-    const [products, setProducts] = useState([]);
+    const [products, setProducts] = useState([] );
     const [sale, setSale] = useState(initialValue);
     const [newProduct, setNewProduct] = useState(initialValueProduct);
 
@@ -75,19 +75,20 @@ export function EditSale() {
 
     const { productos, fecha, valor, nombreCliente, idCliente, idVendedor } = sale;
 
-    const loadSaleData = async () => {
-        let response = await getSale(id);
-        console.log("product", products);
-        console.log("response.data.data: ", response.data.data);
-        response.data.data.productos.forEach(element => {
-            element.descripcion = products.find(item => item._id === element._id).descripcion
-        });
+    const loadSaleData = async() => {
+       
+        let response =  await getSale(id);
+        //console.log("product", products);
+        console.log("loadsaledata response.data.data: ", response.data.data);
         setSale(response.data.data);
+        //response.data.data.productos.forEach(element => {
+        //   element.descripcion = products.find(item => item._id === element._id).descripcion
+        //});
     }
 
-    const loadProductsData = async () => {
+    const loadProductsData = async() => {
         let response = await getProducts();
-        console.log("response", response);
+        console.log("loadProductsData response.data.data ", response.data.data);
         setProducts(response.data.data);
         loadSaleData();
     }
