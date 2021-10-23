@@ -14,14 +14,14 @@ router.get('/', productsController.getProducts);
 
 //escribiendo las reglas que deben cumplir los parametros para crear un producto
 router.post('/',
-    body('valorunitario', 'El valor del producto es requerido y debe ser numerico').exists().isNumeric(),
+    body('valor', 'El valor del producto es requerido y debe ser numerico').exists().isNumeric(),
     body('descripcion', 'La descripción del producto es requerida').exists(),
     body('estado', 'El estado del producto es requerido(true/false)').isBoolean().exists()
     , verifyToken, productsController.createProduct);
 
 //escribiendo las reglas que deben cumplir los parametros para actualizar un producto               
 router.put('/:id',
-    body('valorunitario', 'El valor del producto es requerido y debe ser numerico').exists().isNumeric(),
+    body('valor', 'El valor del producto es requerido y debe ser numerico').exists().isNumeric(),
     body('descripcion', 'La descripción del producto es requerida').exists(),
     body('estado', 'El estado del producto es requerido(true/false)').isBoolean().exists()
     , verifyToken, productsController.updateProduct);

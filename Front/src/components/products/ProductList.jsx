@@ -76,7 +76,7 @@ export function ProductList() {
                             <TableRow className={classes.row} key={product._id}>
                                 <TableCell>{product._id}</TableCell>
                                 <TableCell>{product.descripcion}</TableCell>
-                                <TableCell>{product.valorunitario}</TableCell>
+                                <TableCell>{product.valor}</TableCell>
                                 <TableCell>{product.estado ? "Disponible" : "Agotado"}</TableCell>
                                 {user
                                     &&

@@ -77,7 +77,8 @@ export function EditSale() {
 
     const loadSaleData = async () => {
         let response = await getSale(id);
-        console.log(products);
+        console.log("product", products);
+        console.log("response.data.data: ", response.data.data);
         response.data.data.productos.forEach(element => {
             element.descripcion = products.find(item => item._id === element._id).descripcion
         });
@@ -160,7 +161,7 @@ export function EditSale() {
                     <FormLabel component="legend">Fecha</FormLabel>
                     <Input name="fecha" value={fecha} onChange={(e) => onValueChange(e)} type="date" />
                 </FormControl>
-                <Table className={classes.table}>
+                <Table  className={classes.table}>
                     <TableHead>
                         <TableRow className={classes.thead}>
                             <TableCell>

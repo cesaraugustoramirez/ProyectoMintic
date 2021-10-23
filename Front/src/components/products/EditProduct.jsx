@@ -5,7 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { verifyToken } from '../../services/AuthService'
 
 const initialValue = {
-    valorunitario: 0,
+    valor: 0,
     descripcion: '',
     estado: true,
 }
@@ -22,7 +22,7 @@ const useStyles = makeStyles({
 
 export function EditProduct() {
     const [product, setProduct] = useState(initialValue);
-    const { descripcion, valorunitario, estado } = product;
+    const { descripcion, valor, estado } = product;
     const classes = useStyles();
     let history = useHistory();
 
@@ -61,7 +61,7 @@ export function EditProduct() {
             </FormControl>
             <FormControl>
                 <InputLabel htmlFor="my-input">Valor</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="valorunitario" value={valorunitario} id="my-input" />
+                <Input onChange={(e) => onValueChange(e)} name="valor" value={valor} id="my-input" />
             </FormControl>
             <FormControl component="fieldset">
                 <FormLabel component="legend">Estado</FormLabel>

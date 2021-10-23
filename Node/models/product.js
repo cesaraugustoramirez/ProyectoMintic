@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const ProductSchema = Schema({
     descripcion: String,
-    valorunitario: Number,
+    valor: Number,
     estado: Boolean
 })
 
