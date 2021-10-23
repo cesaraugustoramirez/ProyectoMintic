@@ -6,7 +6,7 @@ import { getCurrentUser } from '../services/AuthService';
 import { verifyToken } from '../services/AuthService';
 
 const initialValue = {
-    valor: '',
+    valorunitario: 0,
     descripcion: '',
     estado: true,
 }
@@ -30,7 +30,7 @@ export function CreateProduct() {
     }, [])
 
     const [product, setProduct] = useState(initialValue);
-    const { valor, descripcion, estado } = product;
+    const { valorunitario, descripcion, estado } = product;
 
     const classes = useStyles();
     let history = useHistory();
@@ -57,7 +57,7 @@ export function CreateProduct() {
             </FormControl>
             <FormControl>
                 <InputLabel htmlFor="my-input">Valor</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="valor" value={valor} id="my-input" />
+                <Input onChange={(e) => onValueChange(e)} name="valorunitario" value={valorunitario} id="my-input" />
             </FormControl>
             <FormControl component="fieldset">
                 <FormLabel component="legend">Estado</FormLabel>

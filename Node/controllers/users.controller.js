@@ -1,121 +1,143 @@
-const { request } = require('express');
-const UserSchema = require('../models/user')
-
+const UserSchema = require('../models/user');
+const { validationResult } = require('express-validator');
+const bcrypt = require('bcrypt');
 
 const getUser = async (req, res) => {
-    if(typeof req.body != 'undefined')
-    {
-        try 
-        {
-            let usuario = await UserSchema.findById(req.body.id) ;    
-            res.json({usuario})
-        } catch (error) 
-        {
-            console.log(error);
+    if (req.params.id != 'undefined') {
+        try {
+            let user = await UserSchema.findById(req.params.id);
+            return res.status(200).json({ data: user });
         }
-    }
-    else
-    {
-        res.json({msg: 'No se puede obtener el usuario'});
-
-
+        catch (err) {
+            return res.status(404).json({
+                error: {
+                    code: 404,
+                    message: "Usero no encontrado"
+                }
+            })
+        }
+    } else {
+        return res.status(404).json({
+            error: {
+                code: 404,
+                message: "ID not found"
+            }
+        })
     }
 }
-
 
 const getUsers = async (req, res) => {
-    if(typeof req.body != 'undefined')
-    {
-        try 
-        {
-            let usuarios = await UserSchema.find() ;    
-            res.json({usuarios})
-        } catch (error) 
-        {
-            console.log(error);
-        }
+    try {
+        let users = await UserSchema.find();
+        return res.status(200).json({ data: users });
     }
-    else
-    {
-        res.json({msg: 'No se pueden obtener los usuarios'});
-
-
+    catch (err) {
+        return res.status(404).json({
+            error: {
+                code: 404,
+                message: "Problemas con la base de datos" + err.message
+            }
+        })
     }
 }
 
-const createUser = async (req, res) => 
-{
-    if(typeof req.body != 'undefined')
-    {
-        console.log(console.log(req.body))
-        let usuario = new UserSchema(req.body);
-        try 
-        {
-            await usuario.save();    
-            res.json({msg: 'Se ha creado el usuario ' + usuario.id})
-        } catch (error) 
-        {
-            console.log(error);
-        }
+const createUser = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            error: {
+                code: 404,
+                errors: errors.array()
+            }
+        });
     }
-    else
-    {
-        res.json({msg: 'No se puede crear el usuario'});
-
-
+    let isEmailExist = await UserSchema.findOne({ email: req.body.email});
+    console.log(isEmailExist);
+    if(isEmailExist){
+        return res.status(400).json({
+            error: {
+                code: 400,
+                message: "El usuario ya se encuentra regstrado"
+            }
+        })
     }
 
+    let newUser = req.body
+    let salt = await bcrypt.genSalt(10);
+    newUser.password = await bcrypt.hash(newUser.password, salt);
+
+    let user = new UserSchema(newUser);
+    try {
+        await user.save();
+        return res.status(201).json({ data: user });
+    }
+    catch (err) {
+        return res.status(404).json({
+            error: {
+                code: 404,
+                message: "Problemas con la base de datos" + err.message
+            }
+        })
+    }
 }
 
 const updateUser = async (req, res) => {
-    if(typeof req.body != 'undefined')
-    {
-        try 
-        {
-            await UserSchema.findOneAndUpdate(
-                { _id: req.body.id },
-                {
-                    email: req.body.email,
-                    rol: req.body.rol,
-                    estado: req.body.estado
-                }
-
-
-            ) ;    
-            res.json({msg: 'Se ha actualizado el usuario ' + req.body.id})
-        } catch (error) 
-        {
-            console.log(error);
-        }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            error: {
+                code: 404,
+                errors: errors.array()
+            }
+        });
     }
-    else
-    {
-        res.json({msg: 'No se puede actualizar el usuario, revisar los parámetros'});
-
-
+    try {
+        let newUser = {
+            id: req.params.id,
+            fullName: req.body.fullname,
+            email: req.body.email,
+            password: req.body.password
+        }
+        await UserSchema.findByIdAndUpdate(req.params.id, newUser);
+        return res.status(201).json({ data: newUser })
+    }
+    catch (err) {
+        return res.status(404).json({
+            error: {
+                code: 404,
+                message: "ID not found"
+            }
+        })
     }
 }
+
 
 const deleteUser = async (req, res) => {
-    if(typeof req.body != 'undefined')
-    {
-        try 
-        {
-            await UserSchema.findOneAndRemove(req.body.id) ;    
-            res.json({msg: 'Se ha eliminado el usuario ' + req.body.id})
-        } catch (error) 
-        {
-            console.log(error);
+    if (req.params.id != 'undefined') {
+        try {
+            let result = await UserSchema.findByIdAndRemove(req.params.id);
+            return res.status(200).json({ data: result });
         }
-    }
-    else
-    {
-        res.json({msg: 'No se puede eliminar el usuario'});
+        catch (err) {
+            return res.status(404).json({
+                error: {
+                    code: 404,
+                    message: "Usero no encontrado"
+                }
+            })
+        }
+    } else {
+        return res.status(404).json({
+            error: {
+                code: 404,
+                message: "ID not found"
+            }
+        })
     }
 }
 
-module.exports.getUser = getUser;
-module.exports.getUsers = getUsers;
 module.exports.createUser = createUser;
-module.exports.updateUser = updateUser;
+module.exports.getUser = getUser;
 module.exports.deleteUser = deleteUser;
+module.exports.getUsers = getUsers;
+module.exports.updateUser = updateUser;

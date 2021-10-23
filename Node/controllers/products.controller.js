@@ -1,118 +1,129 @@
 const { request } = require('express');
-const ProductSchema = require('../models/product')
+//Importando el modelo de Base de datos de los productos
+const ProductSchema = require('../models/product');
+//importando la libreria que nos permite capturar los errores en el cuerpo de la solicitudes
+const { validationResult } = require('express-validator');
 
 
 const getProduct = async (req, res) => {
-    if(typeof req.body != 'undefined')
-    {
-        try 
-        {
-            let producto = await ProductSchema.findById(req.body.id) ;    
-            res.json({producto})
-        } catch (error) 
-        {
-            console.log(error);
+    if (req.params.id != 'undefined') {
+        try {
+            let product = await ProductSchema.findById(req.params.id);
+            res.status(200).json({ data: product });
         }
-    }
-    else
-    {
-        res.json({msg: 'No se puede obtener el producto'});
-
-
+        catch (err) {
+            res.status(404).json({
+                error: {
+                    code: 404,
+                    message: "Producto no encontrado"
+                }
+            })
+        }
+    } else {
+        res.status(404).json({
+            error: {
+                code: 404,
+                message: "ID not found"
+            }
+        })
     }
 }
-
 
 const getProducts = async (req, res) => {
-    if(typeof req.body != 'undefined')
-    {
-        try 
-        {
-            let productos = await ProductSchema.find() ;    
-            res.json({productos})
-        } catch (error) 
-        {
-            console.log(error);
-        }
+    try {
+        let products = await ProductSchema.find();
+        res.status(200).json({ data: products });
     }
-    else
-    {
-        res.json({msg: 'No se pueden obtener los productos'});
-
-
+    catch (err) {
+        res.status(404).json({
+            error: {
+                code: 404,
+                message: "Problemas con la base de datos" + err.message
+            }
+        })
     }
 }
 
-const createProduct = async (req, res) => 
-{
-    if(typeof req.body != 'undefined')
-    {
-        console.log(console.log(req.body))
-        let product = new ProductSchema(req.body);
-        try 
-        {
-            await product.save();    
-            res.json({msg: 'Se ha creado el producto ' + product.id})
-        } catch (error) 
-        {
-            console.log(error);
-        }
+const createProduct = async (req, res) => {
+    //verificando que si hay errores en los parametros de la solictud
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        //si existen errores damos una respuesta erronea
+        return res.status(400).json({
+            error: {
+                code: 404,
+                errors: errors.array()
+            }
+        });
     }
-    else
-    {
-        res.json({msg: 'No se puede crear el producto'});
-
-
+    let product = new ProductSchema(req.body);
+    try {
+        await product.save();
+        res.status(201).json({ data: product });
     }
-
+    catch (err) {
+        res.status(404).json({
+            error: {
+                code: 404,
+                message: "Problemas con la base de datos" + err.message
+            }
+        })
+    }
 }
 
 const updateProduct = async (req, res) => {
-    if(typeof req.body != 'undefined')
-    {
-        try 
-        {
-            await ProductSchema.findOneAndUpdate(
-                { _id: req.body.id },
-                {
-                    valorunitario: req.body.valorunitario,
-                    descripcion: req.body.descripcion,
-                    estado: req.body.estado
-                }
-
-
-            ) ;    
-            res.json({msg: 'Se ha actualizado el producto ' + req.body.id})
-        } catch (error) 
-        {
-            console.log(error);
-        }
+    const errors = validationResult(req);
+    console.log(errors );
+    if (!errors.isEmpty()) {
+        return res.status(400).json({
+            error: {
+                code: 404,
+                errors: errors.array()
+            }
+        });
     }
-    else
-    {
-        res.json({msg: 'No se puede actualizar el producto, revisar los parámetros'});
-
-
+    try {
+        let newProduct = {
+            id: req.params.id,
+            valorunitario: req.body.valorunitario,
+            descripcion: req.body.descripcion,
+            estado: req.body.estado
+        }
+        await ProductSchema.findByIdAndUpdate(req.params.id, newProduct);
+        res.status(201).json({ data: newProduct })
+    }
+    catch (err) {
+        res.status(404).json({
+            error: {
+                code: 404,
+                message: "ID not found"
+            }
+        })
     }
 }
 
+
 const deleteProduct = async (req, res) => {
-    if(typeof req.body != 'undefined')
-    {
-        try 
-        {
-            await ProductSchema.findOneAndRemove(req.body.id) ;    
-            res.json({msg: 'Se ha eliminado el producto ' + req.body.id})
-        } catch (error) 
-        {
-            console.log(error);
+    if (req.params.id != 'undefined') {
+        try {
+            let result = await ProductSchema.findByIdAndRemove(req.params.id);
+            res.status(200).json({ data: result });
         }
-    }
-    else
-    {
-        res.json({msg: 'No se puede eliminar el producto'});
-
-
+        catch (err) {
+            res.status(404).json({
+                error: {
+                    code: 404,
+                    message: "Producto no encontrado"
+                }
+            })
+        }
+    } else {
+        res.status(404).json({
+            error: {
+                code: 404,
+                message: "ID not found"
+            }
+        })
     }
 }
 

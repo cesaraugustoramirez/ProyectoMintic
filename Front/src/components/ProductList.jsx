@@ -42,12 +42,12 @@ export function ProductList() {
 
     const getAllProducts = async () => {
         let response = await getProducts();
-        console.log(response);
+        
         setProducts(response.data.data);
     }
 
     const deleteProductData = async (id) => {
-        let callbackUser = window.confirm('Esta seguro de elimar el prudcto');
+        let callbackUser = window.confirm('Esta seguro de elimar el producto?');
         if (callbackUser) {
             await deleteProduct(id);
             getAllProducts();
@@ -76,13 +76,13 @@ export function ProductList() {
                             <TableRow className={classes.row} key={product._id}>
                                 <TableCell>{product._id}</TableCell>
                                 <TableCell>{product.descripcion}</TableCell>
-                                <TableCell>{product.valor}</TableCell>
+                                <TableCell>{product.valorunitario}</TableCell>
                                 <TableCell>{product.estado ? "Disponible" : "Agotado"}</TableCell>
                                 {user
                                     &&
 
                                     (<TableCell>
-                                        <Button className={classes.button} variant="contained" component={Link} to={`productos/editar/${product._id}`} color="info">Editar</Button>
+                                        <Button className={classes.button} variant="contained" component={Link} to={`productos/editar/${product._id}`} color="primary">Editar</Button>
                                         <Button variant="contained" color="secondary" onClick={() => deleteProductData(product._id)} >Eliminar</Button>
                                     </TableCell>)
                                 }

@@ -17,15 +17,19 @@ const port = 3001;
 
 app.use(cors());
 
+//utilizando variables de entorno definidas en el archivo .env
+require('dotenv').config();
+
 app.use(morgan("dev"));
 
 app.get('/', (req, res) => {
     res.json({ status: 200 });
 })
 
-app.use('/productos', routes.productsRoutes);
-app.use('/usuarios', routes.usersRoutes);
-app.use('/ventas', routes.salesRoutes);
+app.use('/productos', routes.productsRouter);
+app.use('/usuarios', routes.usersRouter);
+app.use('/ventas', routes.salesRouter);
+app.use('/auth', routes.authRouter);
 
 app.listen(port, () => {
     console.log(`listening on port http://localhost:${port}`);
