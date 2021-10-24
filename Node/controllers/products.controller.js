@@ -85,7 +85,7 @@ const updateProduct = async (req, res) => {
     try {
         let newProduct = {
             id: req.params.id,
-            valor: req.body.valorunitario,
+            valor: req.body.valor,
             descripcion: req.body.descripcion,
             estado: req.body.estado
         }

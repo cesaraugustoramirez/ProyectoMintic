@@ -83,6 +83,7 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const errors = validationResult(req);
+    console.log("updateuser", req);
     if (!errors.isEmpty()) {
         return res.status(400).json({
             error: {
@@ -95,8 +96,8 @@ const updateUser = async (req, res) => {
         let newUser = {
             id: req.params.id,
             fullName: req.body.fullname,
-            email: req.body.email,
-            password: req.body.password
+            email: req.body.email/*,
+            password: req.body.password*/
         }
         await UserSchema.findByIdAndUpdate(req.params.id, newUser);
         return res.status(201).json({ data: newUser })

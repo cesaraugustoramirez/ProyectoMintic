@@ -52,6 +52,9 @@ export function NavBar() {
                         {user && (
                             <NavLink className={classes.tabs} to="/ventas">Ventas</NavLink>
                         )}
+                        {user && (
+                            <NavLink className={classes.tabs} to="/usuarios">Usuarios</NavLink>
+                        )}
                     </Box>
                     {!user && (
                         <>

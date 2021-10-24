@@ -5,7 +5,6 @@ import { getProducts } from '../../services/ProductService';
 import { useHistory, useParams } from 'react-router-dom';
 import { getCurrentUser, verifyToken } from '../../services/AuthService';
 
-
 const initialValue = {
     productos: [],
     fecha: "2021-01-01",
@@ -65,6 +64,7 @@ export function EditSale() {
     useEffect(() => {
         setUser(getCurrentUser());
         loadProductsData();
+        loadSaleData();
     }, [])
 
     const [products, setProducts] = useState([] );
@@ -79,18 +79,19 @@ export function EditSale() {
        
         let response =  await getSale(id);
         //console.log("product", products);
+               
         console.log("loadsaledata response.data.data: ", response.data.data);
         setSale(response.data.data);
-        //response.data.data.productos.forEach(element => {
-        //   element.descripcion = products.find(item => item._id === element._id).descripcion
-        //});
+      /*  response.data.data.productos.forEach(element => {
+           element.descripcion = products.find(item => item._id === element._id).descripcion
+        });*/
     }
 
     const loadProductsData = async() => {
         let response = await getProducts();
         console.log("loadProductsData response.data.data ", response.data.data);
         setProducts(response.data.data);
-        loadSaleData();
+        
     }
 
     const onValueChange = (e) => {
@@ -160,7 +161,7 @@ export function EditSale() {
                 </FormControl>
                 <FormControl component="fieldset">
                     <FormLabel component="legend">Fecha</FormLabel>
-                    <Input name="fecha" value={fecha} onChange={(e) => onValueChange(e)} type="date" />
+                    <Input name="fecha" value={ fecha.slice(0,10) } onChange={(e) => onValueChange(e)} type="date" />
                 </FormControl>
                 <Table  className={classes.table}>
                     <TableHead>

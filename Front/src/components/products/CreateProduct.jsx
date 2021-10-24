@@ -1,4 +1,4 @@
-import react, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { FormGroup, FormControl, InputLabel, Input, Button, makeStyles, Typography, RadioGroup, FormLabel, FormControlLabel, Radio } from '@material-ui/core';
 import { addProduct } from '../../services/ProductService';
 import { useHistory } from 'react-router-dom';

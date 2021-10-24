@@ -94,6 +94,7 @@ const createSale = async (req, res) => {
 
 const updateSale = async (req, res) => {
     const errors = validationResult(req);
+    console.log("body actualizar venta", req.body);
     if (!errors.isEmpty()) {
         return res.status(400).json({
             error: {
@@ -106,8 +107,11 @@ const updateSale = async (req, res) => {
         let newSale = {
             id: req.params.id,
             valor: req.body.valor,
-            descripcion: req.body.descripcion,
-            estado: req.body.estado
+            nombreCliente : req.body.nombreCliente,
+            idCliente : req.body.idCliente,
+            idVendedor : req.body.idVendedor,
+            fecha : req.body.fecha
+            
         }
         await SaleSchema.findByIdAndUpdate(req.params.id, newSale);
         res.status(201).json({ data: newSale })

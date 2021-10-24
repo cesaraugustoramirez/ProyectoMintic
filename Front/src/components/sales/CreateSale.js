@@ -1,5 +1,5 @@
-import react, { useState, useEffect } from 'react';
-import { FormGroup, Select, MenuItem, Table, TableHead, TableCell, TableRow, TableBody, FormControl, DesktopDatePicker, InputLabel, Input, Button, makeStyles, Typography, RadioGroup, FormLabel, FormControlLabel, Radio } from '@material-ui/core';
+import  { useState, useEffect } from 'react';
+import { FormGroup, Select, MenuItem, Table, TableHead, TableCell, Input, InputLabel, TableRow, TableBody, FormControl, Button, makeStyles, Typography, FormLabel } from '@material-ui/core';
 import { addSale } from '../../services/SalesService';
 import { getProducts } from '../../services/ProductService';
 import { useHistory } from 'react-router-dom';

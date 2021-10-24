@@ -1,4 +1,4 @@
-import react, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { FormGroup, FormControl, InputLabel, Input, Button, makeStyles, Typography, RadioGroup, FormLabel, FormControlLabel, Radio } from '@material-ui/core';
 import { editProduct, getProduct } from '../../services/ProductService';
 import { useHistory, useParams } from 'react-router-dom';
@@ -30,7 +30,7 @@ export function EditProduct() {
 
     useEffect(() => {
         verifyToken();
-        loadProductData();
+        loadProductData()
     }, [])
 
     const loadProductData = async () => {
