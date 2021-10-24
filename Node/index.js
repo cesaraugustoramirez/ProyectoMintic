@@ -1,36 +1,54 @@
+//importando paquetes
 const express = require('express');
-const app = express();
-const routes = require('./routes');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const dbConfig = require('./config/db');
 const cors = require('cors');
+//const expressValidator = require('express-validator')
 
+//inicializando nuestra aplicación de express
+const app = express();
+
+//usando cors para peticiones de origen cruzado para recursos compartidos
+app.use(cors());
+
+//configuramos nuestra API para trabajar con objetos tipo JSON en las peticiones HTTP
 app.use(express.json())
 
+//utilizando validaciones para las solicitudes HTTP
+//app.use(expressValidator())
 
+//importando la configuración de conexion con la base de datos
+const dbConfig = require('./config/db');
+//creando la conexion con la base de datos mongoDB
 mongoose.connect(dbConfig.dbStringConnect)
     .then(db => console.log("db connected"))
     .catch(err => console.error(err))
 
-const port = 3001;
 
-app.use(cors());
+//usando el Middleware morgan para registrar y detallar las solicitudes HTTP que llegan al servidor 
+app.use(morgan("dev"));
 
 //utilizando variables de entorno definidas en el archivo .env
 require('dotenv').config();
+/*para utilizar las variables de entorno en nuestro codigo 
+utilizamos la estructuta process.env.nombre_variable*/
+const port = process.env.PORT;
 
-app.use(morgan("dev"));
+app.listen(port, () => {
+    console.log(`server listen http://localhost:${port}`)
+})
 
+//ruta base de nuestra API
 app.get('/', (req, res) => {
     res.json({ status: 200 });
 })
 
-app.use('/productos', routes.productsRouter);
-app.use('/usuarios', routes.usersRouter);
-app.use('/ventas', routes.salesRouter);
-app.use('/auth', routes.authRouter);
+//importamos todas las rutas que definimos en ./routes/index.js
+const routes = require('./routes');
 
-app.listen(port, () => {
-    console.log(`listening on port http://localhost:${port}`);
-});
+/*usando las rutas de productos para toda las peticiones
+ que llegen a nuestra API con /productos */
+app.use('/productos', routes.productsRouter);
+app.use('/ventas', routes.salesRouter);
+app.use('/usuarios', routes.usersRouter);
+app.use('/auth', routes.authRouter);
