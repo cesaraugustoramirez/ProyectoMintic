@@ -214,7 +214,7 @@ export function EditSale() {
                                 }
                             </TableCell>
                             <TableCell>
-                                Descripcion {creatingProductState === 'desplegado' &&
+                                Descripción {creatingProductState === 'desplegado' &&
                                     (<>: {newProduct.descripcion}</>)
                                 }
                             </TableCell>

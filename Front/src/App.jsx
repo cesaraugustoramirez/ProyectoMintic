@@ -42,7 +42,6 @@ export function App() {
                 <Route exact path="/ventas" component={SalesList} />
                 <Route exact path="/ventas/detalle/:id" component={SaleDetail} />
                 <Route exact path="/usuarios" component={UserList} />
-                <Route exact path="/usuarios/detalle/:id" component={SaleDetail} />
                 {user && (
                     <>
                         <Route exact path="/productos/agregar" component={CreateProduct} />

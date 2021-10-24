@@ -13,6 +13,10 @@ const ProductSaleDetailSchema = Schema({
     cantidad: {
         type: Number,
         require: true,
+    },
+    descripcion:{
+        type: String,
+        require: true
     }
 })
 
