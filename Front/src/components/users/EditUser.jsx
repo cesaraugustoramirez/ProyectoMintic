@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import { FormGroup, FormControl, InputLabel, Input, Button, makeStyles, Typography, RadioGroup, FormLabel, FormControlLabel, Radio } from '@material-ui/core';
-import { editUser, getUser } from '../../services/UsersService';
+import { editUser, getPartialUser } from '../../services/UsersService';
 import { useHistory, useParams } from 'react-router-dom';
 import { verifyToken } from '../../services/AuthService'
 
 const initialValue = {
     fullName: '',
-    email: '',
-    password: '',
-    date: ''
+    email: ''
 }
 
 const useStyles = makeStyles({
@@ -23,7 +21,7 @@ const useStyles = makeStyles({
 
 export function EditUser() {
     const [usr, setUser] = useState(initialValue);
-    const { fullName, email,password, date} = usr;
+    const { fullName, email} = usr;
     const classes = useStyles();
     let history = useHistory();
 
@@ -35,17 +33,15 @@ export function EditUser() {
     }, [])
 
     const loadUserData = async () => {
-        let response = await getUser(id);
-        console.log("loaduserdata", response);
+        let response = await getPartialUser(id);
         setUser(response.data.data);
     }
 
     const onValueChange = (e) => {
-        console.log("onvaluechange", e);
-        setUser({ ...usr, [e.target.fullName]: e.target.email });
+        setUser({ ...usr, [e.target.name]: e.target.value });
     }
 
-   /* const onStateChange = (state) => {
+/*    const onStateChange = (state) => {
         setProduct({ ...usr, "estado": state });
     }
 */
@@ -59,11 +55,11 @@ export function EditUser() {
             <Typography variant="h4">Editar Usuario</Typography>
             <FormControl>
                 <InputLabel htmlFor="my-input">Nombre</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="nombre" value={fullName} id="my-input" />
+                <Input onChange={(e) => onValueChange(e)} name="fullName" value={fullName} id="my-input" />
             </FormControl>
             <FormControl>
                 <InputLabel htmlFor="my-input">Correo</InputLabel>
-                <Input onChange={(e) => onValueChange(e)} name="correo" value={email} id="my-input" />
+                <Input onChange={(e) => onValueChange(e)} name="email" value={email} id="my-input" />
             </FormControl>
             <FormControl>
                 <Button variant="contained" onClick={() => updateUserData()} color="primary">Editar Usario</Button>

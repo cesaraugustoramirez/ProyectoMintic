@@ -26,9 +26,37 @@ const getUser = async (req, res) => {
     }
 }
 
+
+const getPartialUser = async (req, res) => {
+    console.log("dentro de getPartialUser");
+    if (req.params.id != 'undefined') {
+        try {
+            let user = await UserSchema.findById(req.params.id, {fullName: 1, email: 1});
+            console.log("partialuser", user);
+            return res.status(200).json({ data: user });
+        }
+        catch (err) {
+            return res.status(404).json({
+                error: {
+                    code: 404,
+                    message: "Usero no encontrado"
+                }
+            })
+        }
+    } else {
+        return res.status(404).json({
+            error: {
+                code: 404,
+                message: "ID not found"
+            }
+        })
+    }
+}
+
+
 const getUsers = async (req, res) => {
     try {
-        let users = await UserSchema.find();
+        let users = await UserSchema.find({}, {fullName: 1, email: 1})
         return res.status(200).json({ data: users });
     }
     catch (err) {
@@ -83,7 +111,7 @@ const createUser = async (req, res) => {
 
 const updateUser = async (req, res) => {
     const errors = validationResult(req);
-    console.log("updateuser", req);
+   
     if (!errors.isEmpty()) {
         return res.status(400).json({
             error: {
@@ -94,11 +122,11 @@ const updateUser = async (req, res) => {
     }
     try {
         let newUser = {
-            id: req.params.id,
-            fullName: req.body.fullname,
+            fullName: req.body.fullName,
             email: req.body.email/*,
             password: req.body.password*/
         }
+        console.log("updateuser", req.body);
         await UserSchema.findByIdAndUpdate(req.params.id, newUser);
         return res.status(201).json({ data: newUser })
     }
@@ -139,6 +167,7 @@ const deleteUser = async (req, res) => {
 
 module.exports.createUser = createUser;
 module.exports.getUser = getUser;
+module.exports.getPartialUser = getPartialUser;
 module.exports.deleteUser = deleteUser;
 module.exports.getUsers = getUsers;
 module.exports.updateUser = updateUser;

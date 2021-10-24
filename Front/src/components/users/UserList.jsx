@@ -42,7 +42,6 @@ export function UserList() {
 
     const getAllUsers = async () => {
         let response = await getUsers();
-        console.log(response.data.data);
         setUsers(response.data.data);
     }
 

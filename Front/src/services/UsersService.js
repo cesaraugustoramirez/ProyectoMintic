@@ -12,6 +12,10 @@ export const getUser = async (id) => {
     return await axios.get(`${usersUrl}/${id}`, { headers: authHeaders });
 }
 
+export const getPartialUser = async (id) => {
+    return await axios.get(`${usersUrl}/partial/${id}`, { headers: authHeaders });
+}
+
 export const getUsers = async() => {
     return await axios.get(`${usersUrl}/`);
 }
