@@ -127,6 +127,7 @@ export function EditSale() {
 
     const deleteProduct = (id) => {
         let productsCopy = productos.filter(product => product._id !== id);
+        console.log("delete product", productsCopy)
         setSale({ ...sale, productos: productsCopy });
     }
 
@@ -194,7 +195,7 @@ export function EditSale() {
                                             :<Input
                                                 onChange={(e) => onValueNewProductChange(e)}
                                                 value={newProduct.valor}
-                                                type="text"
+                                                type="number"
                                                 name="valor" />
                                         </>
                                     )
@@ -207,7 +208,7 @@ export function EditSale() {
                                             :<Input
                                                 onChange={(e) => onValueNewProductChange(e)}
                                                 value={newProduct.cantidad}
-                                                type="text"
+                                                type="number"
                                                 name="cantidad" />
                                         </>
                                     )

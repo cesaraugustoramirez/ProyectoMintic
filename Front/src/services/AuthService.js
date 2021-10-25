@@ -1,8 +1,8 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 
-//const authUrl = "https://peaceful-peak-03211.herokuapp.com/auth"; //prod
-const authUrl = "http://localhost:3001/auth"; //dllo
+const authUrl = "https://radiant-thicket-32857.herokuapp.com/auth"; //prod
+//const authUrl = "http://localhost:3001/auth"; //dllo
 
 export const authHeaders = {
     "auth-token":localStorage.getItem("token") 

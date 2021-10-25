@@ -110,8 +110,8 @@ const updateSale = async (req, res) => {
             nombreCliente : req.body.nombreCliente,
             idCliente : req.body.idCliente,
             idVendedor : req.body.idVendedor,
-            fecha : req.body.fecha
-            
+            fecha : req.body.fecha,
+            productos: req.body.productos
         }
         await SaleSchema.findByIdAndUpdate(req.params.id, newSale);
         res.status(201).json({ data: newSale })
