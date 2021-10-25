@@ -81,7 +81,6 @@ export function SaleDetail() {
                         <TableCell>Id Vendedor: {sale.idVendedor}</TableCell>
                         {user && (
                             <TableCell className={classes.button_add}>
-                                <Button className={classes.button} variant="contained" component={Link} to={`ventas/editar/${sale._id}`} color="primary">Editar</Button>
                                 <Button variant="contained" color="secondary" onClick={() => deleteSaleData(sale._id)} >Eliminar</Button>
                             </TableCell>
                         )}
